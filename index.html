@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bartussek — portfolio montażysty wideo. Premiere Pro, YouTube, Shorts, TikTok i montaż dla twórców.">
+<title>Bartussek — Montaż wideo</title>
+<style>
+:root{
+  --bg:#08050f;
+  --bg-soft:#10091d;
+  --panel:#120c20;
+  --panel-2:#171027;
+  --panel-3:#1d1231;
+  --line:rgba(203,168,255,.15);
+  --line-strong:rgba(184,119,255,.42);
+  --text:#f7f2ff;
+  --muted:#a99db9;
+  --violet:#9b5cff;
+  --violet-2:#c184ff;
+  --violet-3:#6d35d9;
+  --lavender:#e2c9ff;
+  --max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);
+  background:
+    radial-gradient(900px 520px at 80% -5%,rgba(126,64,255,.28),transparent 62%),
+    radial-gradient(700px 520px at -10% 38%,rgba(174,83,255,.15),transparent 60%),
+    linear-gradient(180deg,#08050f 0%,#0a0611 48%,#07040c 100%);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.55;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;
+  background-image:
+    linear-gradient(rgba(214,180,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(214,180,255,.025) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:linear-gradient(to bottom,black 0%,transparent 85%);
+}
+body:after{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+.container{width:min(calc(100% - 40px),var(--max));margin:auto}
+
+/* top navigation — intentionally different from the reference */
+.nav{
+  position:sticky;top:14px;z-index:50;margin:14px auto 0;
+  width:min(calc(100% - 28px),1240px);
+  height:64px;border:1px solid var(--line);
+  border-radius:20px;background:rgba(12,7,20,.76);
+  backdrop-filter:blur(20px);
+  box-shadow:0 18px 60px rgba(0,0,0,.25);
+}
+.nav-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 10px 0 18px}
+.brand{font-weight:950;letter-spacing:.16em;font-size:14px}
+.brand span{color:var(--violet-2)}
+.nav-links{display:flex;gap:8px;align-items:center;color:#c8bdd3;font-size:12px;font-weight:800}
+.nav-links a:not(.btn){padding:9px 11px;border-radius:10px}
+.nav-links a:not(.btn):hover{background:rgba(161,91,255,.10);color:#fff}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid rgba(255,255,255,.08);border-radius:13px;
+  padding:12px 17px;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,var(--violet),#7d3ee8);
+  color:#fff;box-shadow:0 12px 35px rgba(132,62,235,.24);
+  transition:.22s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 18px 45px rgba(132,62,235,.34)}
+.btn.secondary{background:rgba(255,255,255,.025);color:var(--text);border:1px solid var(--line);box-shadow:none}
+.btn.secondary:hover{background:rgba(161,91,255,.08);border-color:var(--line-strong)}
+
+/* hero: asymmetric composition instead of the reference's centered sales layout */
+.hero{padding:96px 0 78px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;padding:8px 11px;
+  border:1px solid rgba(180,118,255,.28);background:rgba(151,77,255,.08);
+  border-radius:10px;color:#d9c0ff;text-transform:uppercase;
+  font-size:10px;font-weight:900;letter-spacing:.12em
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--violet-2);box-shadow:0 0 18px var(--violet)}
+h1{font-size:clamp(52px,6.8vw,90px);line-height:.94;letter-spacing:-.065em;margin:22px 0}
+.gradient{
+  background:linear-gradient(100deg,#e5caff 0%,#ad6bff 38%,#7d3ce4 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.lead{max-width:660px;color:var(--muted);font-size:17px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:36px;max-width:660px
+}
+.stat{
+  padding:15px;border:1px solid var(--line);border-radius:15px;
+  background:rgba(255,255,255,.018)
+}
+.stat strong{display:block;font-size:23px;letter-spacing:-.04em}.stat span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+
+/* visual is an original "editing desk" card, not a copy of the reference */
+.hero-art{position:relative;min-height:470px}
+.glow{position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle,rgba(157,82,255,.34),transparent 62%);filter:blur(28px)}
+.editor-card{
+  position:absolute;left:4%;top:7%;width:92%;aspect-ratio:1.18;
+  border:1px solid rgba(211,176,255,.18);border-radius:25px;
+  background:linear-gradient(150deg,#1b102b,#0e0817 72%);
+  box-shadow:0 35px 100px rgba(0,0,0,.58);
+  overflow:hidden;transform:rotate(-2.5deg)
+}
+.editor-top{
+  height:46px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;padding:0 16px
+}
+.window-dots{display:flex;gap:6px}.win{width:8px;height:8px;border-radius:50%;background:#4d3c5f}
+.editor-label{font-size:9px;letter-spacing:.12em;color:#877794;font-weight:900}
+.editor-body{display:grid;grid-template-columns:145px 1fr;height:calc(100% - 46px)}
+.timeline{border-right:1px solid var(--line);padding:17px}
+.timeline b{display:block;color:#816d92;font-size:8px;letter-spacing:.12em;margin-bottom:13px}
+.timeline i{display:block;height:8px;background:#2a193b;border-radius:4px;margin:10px 0;overflow:hidden}
+.timeline i:after{content:"";display:block;height:100%;width:65%;background:linear-gradient(90deg,#6d35d9,#bb7dff);border-radius:4px}
+.timeline i:nth-of-type(2):after{width:82%}.timeline i:nth-of-type(3):after{width:45%}.timeline i:nth-of-type(4):after{width:71%}
+.preview{padding:24px;display:flex;align-items:center;justify-content:center}
+.preview-screen{
+  width:90%;aspect-ratio:16/9;border-radius:16px;
+  background:
+    radial-gradient(circle at 68% 26%,rgba(206,151,255,.48),transparent 18%),
+    radial-gradient(circle at 20% 80%,rgba(91,43,181,.6),transparent 32%),
+    linear-gradient(135deg,#32145a,#12091c 64%,#251039);
+  border:1px solid rgba(255,255,255,.11);position:relative;overflow:hidden
+}
+.preview-screen:before{
+  content:"Bartussek / EDIT";position:absolute;left:18px;top:17px;
+  font-size:9px;font-weight:950;letter-spacing:.16em;color:#f0e4ff
+}
+.preview-screen:after{
+  content:"TIMELINE • CUT • MOTION • SOUND";position:absolute;left:18px;bottom:16px;
+  font-size:8px;font-weight:900;letter-spacing:.13em;color:#c9b7d8;opacity:.75
+}
+.floating{
+  position:absolute;border:1px solid rgba(205,172,255,.16);
+  background:rgba(15,9,24,.9);backdrop-filter:blur(13px);
+  border-radius:14px;padding:11px 14px;box-shadow:0 18px 40px rgba(0,0,0,.4);
+  font-size:10px;font-weight:850
+}
+.float-one{left:-6px;bottom:13%}.float-two{right:-6px;top:17%}
+
+/* section styling */
+.section{padding:94px 0}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:30px}
+.kicker{color:#bd82ff;font-size:10px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}
+h2{font-size:clamp(36px,4vw,58px);line-height:.98;letter-spacing:-.05em;margin:10px 0 0}
+.section-head p{max-width:520px;color:var(--muted);margin:0}
+
+/* bento cards */
+.feature-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+.feature{
+  min-height:220px;padding:28px;border:1px solid var(--line);border-radius:24px;
+  background:linear-gradient(145deg,rgba(29,17,48,.88),rgba(13,8,22,.94));
+  position:relative;overflow:hidden
+}
+.feature:first-child{grid-row:span 2;min-height:454px;display:flex;flex-direction:column;justify-content:flex-end}
+.feature:before{
+  content:"";position:absolute;width:250px;height:250px;border-radius:50%;
+  right:-100px;top:-110px;background:rgba(160,85,255,.18);filter:blur(25px)
+}
+.feature:first-child:after{
+  content:"01";position:absolute;right:28px;top:22px;font-size:90px;font-weight:950;
+  letter-spacing:-.08em;color:rgba(203,160,255,.08)
+}
+.icon{
+  width:42px;height:42px;display:grid;place-items:center;margin-bottom:22px;
+  border:1px solid rgba(183,117,255,.25);border-radius:12px;
+  background:rgba(156,78,255,.09);font-size:19px
+}
+.feature h3{margin:0 0 8px;font-size:20px}.feature p{margin:0;color:var(--muted);font-size:14px;max-width:520px}
+
+/* portfolio */
+.portfolio-wrap{border-top:1px solid var(--line)}
+.creator{margin-top:58px}
+.creator-title{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)
+}
+.creator-title-left{display:flex;align-items:center;gap:12px}
+.creator-title h3{font-size:27px;margin:0;letter-spacing:-.03em}
+.creator-title span{
+  font-size:9px;color:#d8baff;border:1px solid rgba(185,122,255,.28);
+  border-radius:7px;padding:5px 7px;font-weight:900;letter-spacing:.08em
+}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.video-card{
+  display:block;border:1px solid var(--line);border-radius:18px;
+  background:linear-gradient(145deg,#150d23,#0d0715);
+  overflow:hidden;transition:.25s;cursor:pointer
+}
+.video-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(185,122,255,.55);
+  box-shadow:0 24px 55px rgba(65,20,105,.28)
+}
+.thumb{
+  aspect-ratio:16/9;background-size:cover;background-position:center;
+  position:relative;background-color:#1b1029
+}
+.thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.66))}
+.play{
+  position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+  background:rgba(18,8,29,.8);border:1px solid rgba(255,255,255,.22);font-size:16px
+}
+.platform{
+  position:absolute;z-index:2;left:11px;bottom:10px;padding:5px 7px;
+  border-radius:6px;background:rgba(11,5,17,.76);font-size:8px;font-weight:950;letter-spacing:.08em
+}
+.video-info{padding:14px 15px 16px}.video-info strong{display:block;font-size:14px}.video-info small{color:var(--muted);font-size:11px}
+.views{color:#d1a6ff!important;font-weight:900}
+.tiktok .thumb{
+  background:
+    radial-gradient(circle at 72% 25%,rgba(203,139,255,.35),transparent 24%),
+    radial-gradient(circle at 20% 80%,rgba(93,45,179,.5),transparent 28%),
+    linear-gradient(135deg,#25103d,#100719 68%)
+}
+.creator-empty{
+  border:1px dashed rgba(188,132,255,.26);border-radius:20px;padding:40px;
+  text-align:center;color:var(--muted);background:rgba(145,72,255,.025)
+}
+.creator-empty strong{display:block;color:var(--text);font-size:18px;margin-bottom:5px}
+
+/* thumbnail portfolio */
+.thumbnail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.thumbnail-card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#150d23,#0d0715);overflow:hidden;transition:.25s}
+.thumbnail-card:hover{transform:translateY(-5px);border-color:rgba(185,122,255,.55);box-shadow:0 24px 55px rgba(65,20,105,.28)}
+.thumbnail-image{aspect-ratio:16/9;background:radial-gradient(circle at 70% 25%,rgba(193,132,255,.24),transparent 25%),linear-gradient(135deg,#25103d,#100719 68%);position:relative;overflow:hidden}
+.thumbnail-image img{width:100%;height:100%;display:block;object-fit:cover}
+.thumbnail-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#cdb4e5;text-align:center;padding:20px}
+.thumbnail-placeholder strong{font-size:15px}.thumbnail-placeholder span{font-size:10px;color:var(--muted)}
+.thumbnail-info{padding:14px 15px 16px}.thumbnail-info strong{display:block;font-size:14px}.thumbnail-info small{color:var(--muted);font-size:11px}
+
+/* pricing */
+.price-grid{display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:14px}
+.price-card{
+  padding:28px;border:1px solid var(--line);border-radius:22px;
+  background:linear-gradient(145deg,#171027,#0d0716)
+}
+.price-card.featured{
+  border-color:rgba(183,115,255,.48);
+  background:linear-gradient(145deg,#221136,#10091b);
+  box-shadow:0 0 60px rgba(137,67,224,.09)
+}
+.price-card h3{margin:0 0 12px}.price{font-size:34px;font-weight:950;letter-spacing:-.05em;color:#dfc4ff}.price-card p{color:var(--muted);font-size:13px}
+.note{margin-top:20px;color:#91859d;font-size:12px}
+
+/* payments */
+.payment-note{margin-top:18px;display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(29,17,48,.72),rgba(13,8,22,.82))}
+.payment-icon{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border:1px solid rgba(183,117,255,.25);border-radius:11px;background:rgba(156,78,255,.09);color:var(--violet-2);font-size:18px;font-weight:900}
+.payment-note strong{display:block;font-size:14px;margin-bottom:2px}.payment-note p{margin:0;color:var(--muted);font-size:12px}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.review{
+  border:1px solid var(--line);border-radius:20px;padding:25px;
+  background:linear-gradient(145deg,#151022,#0d0714);min-height:190px
+}
+.stars{color:#c28aff;letter-spacing:3px;font-size:12px}
+.review blockquote{margin:16px 0;color:#ded3e8;font-size:14px}
+.review cite{font-style:normal;color:var(--muted);font-size:12px;font-weight:800}
+.review-empty{border-style:dashed}
+
+/* contact */
+.contact{padding:80px 0 105px}
+.contact-box{
+  padding:45px;border:1px solid rgba(185,121,255,.27);border-radius:27px;
+  background:
+    radial-gradient(circle at 90% 20%,rgba(157,82,255,.25),transparent 30%),
+    linear-gradient(145deg,#181028,#0b0612);
+  display:flex;justify-content:space-between;gap:35px;align-items:center
+}
+.contact-box h2{margin:0}.contact-box p{color:var(--muted);max-width:620px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:#777083;font-size:12px}
+.footer-inner{display:flex;justify-content:space-between;gap:20px}
+.mobile-menu{display:none}
+
+@media(max-width:900px){
+  .nav-links{display:none}.mobile-menu{display:block;background:none;color:white;border:0;font-size:22px}
+  .hero-grid{grid-template-columns:1fr}.hero-art{min-height:390px}
+  .feature-grid,.price-grid{grid-template-columns:1fr}
+  .feature:first-child{grid-row:auto;min-height:300px}
+  .video-grid,.thumbnail-grid{grid-template-columns:repeat(2,1fr)}
+  .section-head{display:block}.section-head p{margin-top:14px}.contact-box{display:block}
+}
+@media(max-width:600px){
+  .container{width:min(calc(100% - 24px),var(--max))}
+  .nav{top:8px;margin-top:8px}
+  .hero{padding:65px 0 70px}h1{font-size:49px}
+  .hero-stats{grid-template-columns:1fr}
+  .hero-art{min-height:285px}.editor-card{left:2%;width:96%}.floating{display:none}
+  .video-grid,.thumbnail-grid,.reviews{grid-template-columns:1fr}
+  .section{padding:70px 0}.contact-box{padding:30px 22px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#top">BARTU<span>SSEK</span></a>
+    <div class="nav-links">
+      <a href="#o-mnie">O mnie</a><a href="#portfolio">Portfolio</a><a href="#cennik">Cennik</a><a href="#opinie">Opinie</a>
+      <a class="btn" href="#kontakt">Napisz do mnie →</a>
+    </div>
+    <button class="mobile-menu" onclick="document.querySelector('.nav-links').style.display='flex'">☰</button>
+  </div>
+</nav>
+
+<main id="top">
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Montaż wideo • Premiere Pro</div>
+      <h1>Twój materiał.<br><span class="gradient">Mój montaż.</span><br>Lepszy film.</h1>
+      <p class="lead">Mam 5 lat doświadczenia w Adobe Premiere Pro, które zdobyłem montując filmy na swój kanał. Teraz rozwijam się również w montażu dla innych twórców i serwerów.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#portfolio">Zobacz portfolio →</a>
+        <a class="btn secondary" href="#kontakt">Współpraca</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>5 lat</strong><span>Premiere Pro</span></div>
+        <div class="stat"><strong>0</strong><span>spóźnionych oddań*</span></div>
+        <div class="stat"><strong>121K+</strong><span>najwyższe wyświetlenia reklamy</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="glow"></div>
+      <div class="editor-card">
+        <div class="editor-top"><i class="win"></i><i class="win"></i><i class="win"></i></div>
+        <div class="editor-body"><div class="timeline"><i></i><i></i><i></i><i></i><i style="width:70%"></i></div><div class="preview"><div class="preview-screen"></div></div></div>
+      </div>
+      <div class="floating float-one">✦ Montaż pod YouTube / TikTok</div>
+      <div class="floating float-two">✓ Poprawki z klientem na Discordzie</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="o-mnie">
+  <div class="container">
+    <div class="section-head"><div><div class="kicker">01 / Dlaczego ja?</div><h2>Montaż, który ma<br><span class="gradient">utrzymać uwagę.</span></h2></div>
+    <p>Nie chodzi tylko o pocięcie materiału. Zależy mi na tempie, czytelności, humorze, muzyce i wszystkim, co sprawia, że widz chce zostać do końca.</p></div>
+    <div class="feature-grid">
+      <article class="feature"><div class="icon">⚡</div><h3>Terminowość</h3><p>Staram się oddawać film w czasie, jaki został ustalony. Do tej pory ani razu nie spóźniłem się z oddaniem zleconego filmu.</p></article>
+      <article class="feature"><div class="icon">◉</div><h3>Poprawki na żywo</h3><p>Po skończeniu filmu mogę wejść z klientem na Discorda, udostępnić ekran i wspólnie przejść przez cały materiał.</p></article>
+      <article class="feature"><div class="icon">↗</div><h3>Wyższy poziom filmu</h3><p>Dobry montaż może pomóc utrzymać uwagę widza i sprawić, że materiał będzie wyglądał oraz oglądał się lepiej.</p></article>
+    </div>
+    <div style="margin-top:18px;color:#777284;font-size:11px">* Dotyczy dotychczasowych zleceń opisanych w portfolio.</div>
+  </div>
+</section>
+
+<section class="section portfolio-wrap" id="portfolio">
+<div class="container">
+  <div class="section-head"><div><div class="kicker">02 / Portfolio</div><h2>Moje realizacje<br><span class="gradient">i projekty klientów.</span></h2></div>
+  <p>Kliknij w dowolny projekt, aby przejść bezpośrednio do filmu. Miniaturki YouTube pobierają się automatycznie z YouTube.</p></div>
+
+  <div class="creator">
+    <div class="creator-title"><div class="creator-title-left"><h3>Moje filmy</h3><span>YOUTUBE</span></div><span>01</span></div>
+    <div class="video-grid" id="my-videos"></div>
+  </div>
+
+  <div class="creator">
+    <div class="creator-title"><div class="creator-title-left"><h3>Moje Shortsy</h3><span>YOUTUBE SHORTS</span></div><span>02</span></div>
+    <div class="video-grid" id="my-shorts"></div>
+  </div>
+
+  <div class="creator">
+    <div class="creator-title"><div class="creator-title-left"><h3>CraftMC.pl</h3><span>KLIENT</span></div><span>03</span></div>
+    <div class="video-grid" id="craftmc"></div>
+  </div>
+
+  <div class="creator">
+    <div class="creator-title"><div class="creator-title-left"><h3>Nezzula</h3><span>YOUTUBE</span></div><span>04</span></div>
+    <div class="video-grid" id="nezzula"></div>
+  </div>
+
+  <div class="creator">
+    <div class="creator-title"><div class="creator-title-left"><h3>Moje miniaturki</h3><span>THUMBNAILS</span></div><span>05</span></div>
+    <div class="thumbnail-grid">
+      <article class="thumbnail-card">
+        <div class="thumbnail-image"><img src="miniatura-1.jpg" alt="Moja miniatura 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumbnail-placeholder" style="display:none"><strong>MINIATURA 1</strong><span>Wstaw plik: miniatura-1.jpg</span></div></div>
+        <div class="thumbnail-info"><strong>Miniatura 01</strong><small>Przykładowa realizacja</small></div>
+      </article>
+      <article class="thumbnail-card">
+        <div class="thumbnail-image"><img src="miniatura-2.jpg" alt="Moja miniatura 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumbnail-placeholder" style="display:none"><strong>MINIATURA 2</strong><span>Wstaw plik: miniatura-2.jpg</span></div></div>
+        <div class="thumbnail-info"><strong>Miniatura 02</strong><small>Przykładowa realizacja</small></div>
+      </article>
+      <article class="thumbnail-card">
+        <div class="thumbnail-image"><img src="miniatura-3.jpg" alt="Moja miniatura 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumbnail-placeholder" style="display:none"><strong>MINIATURA 3</strong><span>Wstaw plik: miniatura-3.jpg</span></div></div>
+        <div class="thumbnail-info"><strong>Miniatura 03</strong><small>Przykładowa realizacja</small></div>
+      </article>
+    </div>
+  </div>
+
+  <div class="creator">
+    <div class="creator-title"><div class="creator-title-left"><h3>Przyszli twórcy</h3><span>MIEJSCE NA NOWE REALIZACJE</span></div><span>06+</span></div>
+    <div class="creator-empty">
+      <strong>Tu pojawi się kolejny twórca.</strong>
+      Dodaj nową sekcję w kodzie, gdy zrealizujesz kolejne zlecenie.
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="section" id="cennik">
+<div class="container">
+  <div class="section-head"><div><div class="kicker">03 / Cennik</div><h2>Prosto i<br><span class="gradient">elastycznie.</span></h2></div>
+  <p>Podane ceny są orientacyjne. Ostateczna wycena zależy od konkretnego materiału i zakresu montażu.</p></div>
+  <div class="price-grid">
+    <article class="price-card featured"><h3>Shortsy / TikToki</h3><div class="price">60–120 zł</div><p>Krótkie, dynamiczne materiały do social mediów.</p></article>
+    <article class="price-card"><h3>Filmy dłuższe</h3><div class="price">250–450 zł</div><p>Przykładowo materiał z około 1,5 h surowki — cena może być niższa lub wyższa zależnie od projektu.</p></article>
+    <article class="price-card"><h3>Prosta miniaturka</h3><div class="price">15–20 zł</div><p>Dodatkowa opcja. Nie specjalizuję się w miniaturach, więc traktuję je jako prosty dodatek do montażu.</p></article>
+  </div>
+  <div class="note">Cennik może się zmniejszyć lub zwiększyć w zależności od długości surowki, liczby rzeczy do wykonania, poziomu skomplikowania filmu i zakresu poprawek. Staram się dopasowywać wycenę do możliwości finansowych klienta.</div>
+
+  <div class="payment-note">
+    <div class="payment-icon">↔</div>
+    <div>
+      <strong>Płatności</strong>
+      <p>Najchętniej przyjmuję płatności <b>BLIKiem</b> lub <b>przelewem na konto bankowe</b>.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="section" id="opinie">
+<div class="container">
+  <div class="section-head"><div><div class="kicker">04 / Opinie</div><h2>Co mówią<br><span class="gradient">twórcy?</span></h2></div>
+  <p>W tym miejscu możesz wkleić opinie klientów dokładnie tak, jak je otrzymałeś — bez screenów.</p></div>
+  <div class="reviews">
+    <article class="review review-empty"><div class="stars">★★★★★</div><blockquote>„Tutaj wkleję opinię klienta 1:1.”</blockquote><cite>— IMIĘ / NICK TWÓRCY</cite></article>
+    <article class="review review-empty"><div class="stars">★★★★★</div><blockquote>„Tutaj wkleję kolejną opinię klienta 1:1.”</blockquote><cite>— IMIĘ / NICK TWÓRCY</cite></article>
+    <article class="review review-empty"><div class="stars">★★★★★</div><blockquote>„Miejsce na kolejną opinię.”</blockquote><cite>— IMIĘ / NICK TWÓRCY</cite></article>
+    <article class="review review-empty"><div class="stars">★★★★★</div><blockquote>„Miejsce na kolejną opinię.”</blockquote><cite>— IMIĘ / NICK TWÓRCY</cite></article>
+  </div>
+</div>
+</section>
+
+<section class="contact" id="kontakt">
+<div class="container">
+  <div class="contact-box">
+    <div><div class="kicker">05 / Kontakt</div><h2>Masz materiał?<br><span class="gradient">Napisz do mnie.</span></h2>
+    <p>Preferuję kontakt przez Discord w prywatnych wiadomościach. Napisz do mnie w prywatnej wiadomości : bartussek_alt. Gdy liczba klientów się zwiększy, możliwe jest stworzenie osobnego serwera Discord do współpracy.</p></div>
+    <a class="btn" href="#" onclick="alert('Napisz do mnie w wiadomosci prywatnej na discord : bartussek_alt');return false">Discord →</a>
+  </div>
+</div>
+</section>
+</main>
+
+<footer><div class="container footer-inner"><span>© 2026 Bartussek — Montaż wideo</span><span>Premiere Pro • YouTube • TikTok • Shorts</span></div></footer>
+
+<script>
+const yt = id => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+const videos = {
+  "my-videos":[
+    ["WporLCiwRHs","Oto JAK przeszedlem MINECRAFTA na ZAPOMNIANYM TRYBIE"],
+    ["QsfqbYnIRic","Czy DA SIĘ nauczyć PVP na PADZIE w MINECRAFT?"],
+    ["WbvGbiYgXS0","LAVA uratowała mi ZYCIE na IGRZYSKACH ŚMIERCI"],
+    ["H7um1pbUQCM","Musiałem ZDOBYĆ JAJKO SMOKA aby PRZETRWAĆ na tym HARDCORE SMP w MINECRAFT"]
+  ],
+  "my-shorts":[
+    ["IACOWYCikXg","Jak ZNALEZC kazdy CAVE w MINECRAFT ?"],
+    ["du4P2MIiExQ","JAK GRAĆ NA PADZIE W MINECRAFT ?"]
+  ],
+  "craftmc":[
+    ["https://www.tiktok.com/@craftmcpl/video/7654580915296881942","Reklama CraftMC.pl — 121 tys. wyświetleń","121 tys. wyświetleń"],
+    ["https://www.tiktok.com/@craftmcpl/video/7628507002410372374","Reklama CraftMC.pl — 75 tys. wyświetleń","75 tys. wyświetleń"],
+    ["https://www.tiktok.com/@craftmcpl/video/7559954103439215894","Reklama CraftMC.pl — 31 tys. wyświetleń","31 tys. wyświetleń"]
+  ],
+  "nezzula":[
+    ["yYT3rbKgBt0","NO TO JUŻ PRZESADA!!!"],
+    ["mbbYD-Y6oQc","OSZUKALI MNIE NA DIAMENTY..."]
+  ]
+};
+
+function youtubeCard(id,title,short=false){
+  const url=short?`https://www.youtube.com/shorts/${id}`:`https://youtu.be/${id}`;
+  return `<a class="video-card" href="${url}" target="_blank" rel="noopener">
+    <div class="thumb" style="background-image:url('${yt(id)}')" onerror="this.style.backgroundImage='url(https://i.ytimg.com/vi/${id}/hqdefault.jpg)'">
+      <span class="play">▶</span><span class="platform">${short?'YOUTUBE SHORTS':'YOUTUBE'}</span>
+    </div><div class="video-info"><strong>${title}</strong><small>Kliknij, aby obejrzeć →</small></div>
+  </a>`;
+}
+function tiktokCard(url,title,views){
+  return `<a class="video-card tiktok" href="${url}" target="_blank" rel="noopener">
+    <div class="thumb"><span class="play">▶</span><span class="platform">TIKTOK</span></div>
+    <div class="video-info"><strong>${title}</strong><small class="views">${views}</small></div>
+  </a>`;
+}
+videos["my-videos"].forEach(v=>document.getElementById("my-videos").insertAdjacentHTML("beforeend",youtubeCard(v[0],v[1])));
+videos["my-shorts"].forEach(v=>document.getElementById("my-shorts").insertAdjacentHTML("beforeend",youtubeCard(v[0],v[1],true)));
+videos.craftmc.forEach(v=>document.getElementById("craftmc").insertAdjacentHTML("beforeend",tiktokCard(v[0],v[1],v[2])));
+videos.nezzula.forEach(v=>document.getElementById("nezzula").insertAdjacentHTML("beforeend",youtubeCard(v[0],v[1])));
+</script>
+</body>
+</html>
